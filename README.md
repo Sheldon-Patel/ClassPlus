@@ -62,7 +62,7 @@ IntelliClass is a **High-Performance, Privacy-Conscious Learning Management Syst
 
 1.  **Clone the Repository**:
     ```bash
-    git clone https://github.com/Sudhanshu-Nijap/IntelliClass.git
+    git clone https://github.com/Sheldon-Patel/IntelliClass.git
     cd IntelliClass
     ```
 
