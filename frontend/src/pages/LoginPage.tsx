@@ -84,65 +84,171 @@ const LoginPage = () => {
   };
 
   const renderStudentForm = () => (
-    <div>
-      {/* Login / Signup toggle */}
-      <div className="flex border-4 border-black p-1 gap-1 mb-6 bg-[var(--surface-2)] shadow-[var(--shadow-sm)]">
-        {(["login", "signup"] as const).map((mode) => (
-          <button
-            key={mode}
-            onClick={() => { setStudentMode(mode); resetForm(); }}
-            className={`flex-1 py-2 font-black uppercase transition-all duration-150 ${studentMode === mode
+  <div>
+    <div className="flex border-4 border-black p-1 gap-1 mb-6 bg-[var(--surface-2)] shadow-[var(--shadow-sm)]">
+      {(["login", "signup"] as const).map((mode) => (
+        <button
+          key={mode}
+          onClick={() => {
+            setStudentMode(mode);
+            resetForm();
+          }}
+          className={`flex-1 py-2 font-black uppercase transition-all duration-150 ${
+            studentMode === mode
               ? "bg-[var(--nb-yellow)] text-black border-4 border-black shadow-[var(--shadow-sm)] translate-y-[-2px] translate-x-[-2px]"
               : "text-[var(--text-muted)] hover:text-black border-4 border-transparent hover:border-black"
-              }`}
-          >
-            {mode}
-          </button>
-        ))}
+          }`}
+        >
+          {mode}
+        </button>
+      ))}
+    </div>
+
+    <form
+      onSubmit={
+        studentMode === "login"
+          ? handleStudentLogin
+          : handleStudentSignUp
+      }
+      className="space-y-4"
+    >
+      <div>
+        <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">
+          Name
+        </label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter your name"
+          required
+          className={inputClass}
+        />
       </div>
 
-      <form onSubmit={studentMode === "login" ? handleStudentLogin : handleStudentSignUp} className="space-y-4">
+      {studentMode === "signup" && (
         <div>
-          <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">Name</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" required className={inputClass} />
+          <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">
+            Email Address
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@gmail.com"
+            required
+            className={inputClass}
+          />
         </div>
-        {studentMode === "signup" && (
-          <div>
-            <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">Email Address</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@gmail.com" required className={inputClass} />
-          </div>
-        )}
-        <div>
-          <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required className={inputClass} />
-        </div>
-        <Button type="submit" disabled={isLoading} className="w-full py-4 text-lg font-black mt-4">
-          {isLoading ? "Please wait..." : studentMode === "login" ? "Sign In →" : "Create Account →"}
-        </Button>
+      )}
 
-      </form>
-    </div>
-  );
+      <div>
+        <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">
+          Password
+        </label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          required
+          className={inputClass}
+        />
+      </div>
+
+      {studentMode === "login" && (
+        <div className="border-4 border-black bg-[var(--surface-2)] p-3 text-sm shadow-[var(--shadow-sm)]">
+          <p className="font-black uppercase mb-2">Demo Credentials</p>
+          <p>
+            <span className="font-bold">Username:</span> Sudhanshu
+          </p>
+          <p>
+            <span className="font-bold">Password:</span> 123456
+          </p>
+        </div>
+      )}
+
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="w-full py-4 text-lg font-black mt-4"
+      >
+        {isLoading
+          ? "Please wait..."
+          : studentMode === "login"
+          ? "Sign In →"
+          : "Create Account →"}
+      </Button>
+    </form>
+  </div>
+);
 
 
   const renderStaffForm = () => (
-    <div>
+  <div>
+    <form onSubmit={handleStaffLogin} className="space-y-4">
+      <div>
+        <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">
+          Username
+        </label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter your username"
+          required
+          className={inputClass}
+        />
+      </div>
 
-      <form onSubmit={handleStaffLogin} className="space-y-4">
-        <div>
-          <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">Username</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" required className={inputClass} />
-        </div>
-        <div>
-          <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required className={inputClass} />
-        </div>
-        <Button type="submit" disabled={isLoading} className="w-full py-4 text-lg font-black mt-4">
-          {isLoading ? "Please wait..." : "Sign In →"}
-        </Button>
-      </form>
-    </div>
-  );
+      <div>
+        <label className="block mb-1.5 text-sm font-black uppercase tracking-wide text-black">
+          Password
+        </label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          required
+          className={inputClass}
+        />
+      </div>
+
+      <div className="border-4 border-black bg-[var(--surface-2)] p-3 text-sm shadow-[var(--shadow-sm)]">
+        <p className="font-black uppercase mb-2">Demo Credentials</p>
+
+        {activeRole === Roles.TEACHER ? (
+          <>
+            <p>
+              <span className="font-bold">Username:</span> teacher
+            </p>
+            <p>
+              <span className="font-bold">Password:</span> 123456
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              <span className="font-bold">Username:</span> admin
+            </p>
+            <p>
+              <span className="font-bold">Password:</span> 123456
+            </p>
+          </>
+        )}
+      </div>
+
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="w-full py-4 text-lg font-black mt-4"
+      >
+        {isLoading ? "Please wait..." : "Sign In →"}
+      </Button>
+    </form>
+  </div>
+);
 
   return (
     <div className="min-h-screen bg-grid flex flex-col theme-transition" style={{ background: "var(--bg)" }}>
