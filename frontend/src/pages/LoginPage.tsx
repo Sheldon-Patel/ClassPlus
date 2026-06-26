@@ -233,7 +233,7 @@ const LoginPage = () => {
               <span className="font-bold">Username:</span> admin
             </p>
             <p>
-              <span className="font-bold">Password:</span> 123456
+              <span className="font-bold">Password:</span> admin
             </p>
           </>
         )}
