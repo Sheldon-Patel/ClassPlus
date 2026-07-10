@@ -194,39 +194,7 @@ app.post("/api/leaderboard/update", async (req, res) => {
   res.status(200).json({ message: "Leaderboard update triggered" });
 });
 
-async function triggerN8nWebhook(quizId, studentIds, defaultTeacherId = null) {
-  try {
-    const webhookUrl = process.env.N8N_WEBHOOK_URL;
-    if (!webhookUrl) return;
 
-    const quiz = await Quiz.findById(quizId);
-    if (!quiz) return;
-
-    const teacher = await User.findById(defaultTeacherId || quiz.createdBy);
-    if (!teacher) return;
-
-    const students = await User.find({ _id: { $in: studentIds } });
-    const studentEmails = students.map(s => s.email).filter(e => e);
-
-    if (studentEmails.length === 0) return;
-
-    const payload = {
-      teacherName: teacher.name,
-      teacherEmail: teacher.email,
-      quizTitle: quiz.title,
-      quizLink: `http://localhost:5173/student`,
-      studentEmails: studentEmails,
-    };
-
-    fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    }).catch(err => console.error("Failed to send n8n webhook:", err));
-  } catch(e) {
-    console.error("Error triggering n8n webhook:", e);
-  }
-}
 
 app.get("/api/assignments", async (req, res) => {
   const assignments = await QuizAssignment.find();
@@ -259,7 +227,7 @@ app.post("/api/assignments", authenticateJWT, async (req, res) => {
       isLive,
     });
     notifyNewAssignment(assignment);
-    triggerN8nWebhook(quizId, studentIds, req.user ? (req.user.id || req.user._id) : null);
+
     res.status(201).json(assignment);
   } catch (e) {
     console.error(e);
@@ -315,7 +283,7 @@ app.put("/api/assignments/by-quiz/:quizId", async (req, res) => {
     if (newStudentIds.length > 0) {
       const newAssignmentData = { ...assignment.toObject(), studentIds: newStudentIds };
       notifyNewAssignment(newAssignmentData);
-      triggerN8nWebhook(quizId, newStudentIds, req.user ? (req.user.id || req.user._id) : null);
+
     }
 
     res.json(assignment);
@@ -1155,7 +1123,7 @@ app.post("/api/create-quiz", authenticateJWT, async (req, res) => {
     });
 
     notifyNewAssignment(newAssignment);
-    triggerN8nWebhook(newQuiz._id, newAssignment.studentIds, req.user ? (req.user.id || req.user._id) : null);
+
 
     res.status(201).json({ quiz: newQuiz, assignment: newAssignment });
   } catch (error) {

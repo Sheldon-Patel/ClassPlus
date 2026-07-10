@@ -6,7 +6,6 @@ ClassPlus is a **High-Performance, Privacy-Conscious Learning Management System 
 
 - **Privacy-First Architecture**: Implements **AES-256 encryption** for all assessment data (questions, options, and results) at rest, ensuring academic integrity and data privacy.
 - **Custom NLP Engine**: Leverages the `natural` language processing library for high-speed, local MCQ generation and content summarization, eliminating the need for external AI API calls.
-- **Automated Workflows**: Integrated with **n8n** to handle complex event-driven tasks like automated quiz assignment notifications and gradebook sync.
 - **Real-time Engagement**: Powered by **Socket.io** for live leaderboards, instant classroom notifications, and synchronous discussion forums.
 
 ---
