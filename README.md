@@ -1,6 +1,6 @@
-# IntelliClass
+# ClassPlus
 
-IntelliClass is a **High-Performance, Privacy-Conscious Learning Management System (LMS)** designed to bridge the gap between educational content and student engagement. Built with a focus on automation and data sovereignty, it replaces traditional LLM-dependency with a high-precision, **custom rule-based NLP and algorithmic engine**.
+ClassPlus is a **High-Performance, Privacy-Conscious Learning Management System (LMS)** designed to bridge the gap between educational content and student engagement. Built with a focus on automation and data sovereignty, it replaces traditional LLM-dependency with a high-precision, **custom rule-based NLP and algorithmic engine**.
 
 ## 🚀 Key Highlights
 
@@ -62,8 +62,8 @@ IntelliClass is a **High-Performance, Privacy-Conscious Learning Management Syst
 
 1.  **Clone the Repository**:
     ```bash
-    git clone https://github.com/Sheldon-Patel/IntelliClass.git
-    cd IntelliClass
+    git clone https://github.com/Sheldon-Patel/ClassPlus.git
+    cd ClassPlus
     ```
 
 2.  **Backend Setup**:
@@ -87,6 +87,6 @@ IntelliClass is a **High-Performance, Privacy-Conscious Learning Management Syst
 ---
 
 ## 🔒 Security & Compliance
-IntelliClass is built for environments where data sensitivity is paramount. By utilizing local NLP processing and military-grade encryption, we ensure that educational data never leaves your controlled environment for training third-party models.
+ClassPlus is built for environments where data sensitivity is paramount. By utilizing local NLP processing and military-grade encryption, we ensure that educational data never leaves your controlled environment for training third-party models.
 
 ---

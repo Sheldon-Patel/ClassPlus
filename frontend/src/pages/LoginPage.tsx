@@ -284,7 +284,7 @@ const LoginPage = () => {
         </div>
 
         <p className="mt-6 text-xs" style={{ color: "var(--text-subtle)" }}>
-          © {new Date().getFullYear()} IntelliClass
+          © {new Date().getFullYear()} ClassPlus
         </p>
       </div>
     </div>

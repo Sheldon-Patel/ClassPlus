@@ -89,12 +89,12 @@ export const Navbar = () => {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2 group shrink-0">
-                        <img src="/favicon.png" alt="IntelliClass Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md group-hover:scale-110 transition-transform" />
+                        <img src="/favicon.png" alt="ClassPlus Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md group-hover:scale-110 transition-transform" />
                         <span 
                             className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black hidden xs:block"
                             style={{ textShadow: "-2px -2px 0 var(--nb-yellow), 2px 2px 0 var(--nb-blue)" }}
                         >
-                            IntelliClass
+                            ClassPlus
                         </span>
                     </Link>
 
