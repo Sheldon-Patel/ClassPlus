@@ -43,7 +43,7 @@ export const Header = () => {
                         <img src="/favicon.svg" alt="ClassPure Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
                         <span
                             className="text-xl sm:text-2xl font-black tracking-tight text-black"
-                            style={{ textShadow: "-2px -2px 0 var(--nb-yellow), 2px 2px 0 var(--nb-blue)" }}
+                            style={{ textShadow: "-1px -1px 0 var(--nb-yellow), 1px 1px 0 var(--nb-blue)" }}
                         >
                             ClassPure
                         </span>
