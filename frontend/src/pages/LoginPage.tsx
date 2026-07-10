@@ -160,7 +160,7 @@ const LoginPage = () => {
         <div className="border-4 border-black bg-[var(--surface-2)] p-3 text-sm shadow-[var(--shadow-sm)]">
           <p className="font-black uppercase mb-2">Demo Credentials</p>
           <p>
-            <span className="font-bold">Username:</span> Sudhanshu
+            <span className="font-bold">Username:</span> Sheldon
           </p>
           <p>
             <span className="font-bold">Password:</span> 123456
