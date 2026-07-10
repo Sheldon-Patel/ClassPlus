@@ -91,7 +91,7 @@ export const Navbar = () => {
                     <Link to="/" className="flex items-center gap-2 group shrink-0">
                         <img src="/favicon.svg" alt="ClassPure Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md group-hover:scale-110 transition-transform" />
                         <span 
-                            className="text-xl sm:text-2xl font-black tracking-tight text-black hidden xs:block"
+                            className="text-xl sm:text-2xl font-black tracking-tight text-black hidden sm:block"
                             style={{ textShadow: "-2px -2px 0 var(--nb-yellow), 2px 2px 0 var(--nb-blue)" }}
                         >
                             ClassPure
