@@ -54,30 +54,33 @@ const upload = multer({ storage });
 // connect to MongoDB
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
-  console.error("FATAL: MONGODB_URI is not defined in .env");
-  process.exit(1);
+  console.warn("WARNING: MONGODB_URI is not defined. Starting server without DB connection.");
 }
 
 // Disable buffering immediately so operations fail fast if not connected
 mongoose.set("bufferCommands", false);
 
-mongoose
-  .connect(MONGODB_URI, {
-    dbName: process.env.DB_NAME || "intelliquiz",
-  })
-  .then(() => {
-    console.log("Connected to MongoDB successfully");
-    server.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
+// Always start server so Render keeps the process alive
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
+if (MONGODB_URI) {
+  mongoose
+    .connect(MONGODB_URI, {
+      dbName: process.env.DB_NAME || "intelliquiz",
+    })
+    .then(() => {
+      console.log("Connected to MongoDB successfully");
+    })
+    .catch((err) => {
+      console.error("MongoDB Connection Error!");
+      if (err.message.includes("Server selection timed out") || err.message.includes("ETIMEOUT")) {
+        console.error("POSSIBLY AN IP WHITELIST ISSUE: Please ensure your current IP is whitelisted in MongoDB Atlas (Network Access).");
+      }
+      console.error("Details:", err.message);
     });
-  })
-  .catch((err) => {
-    console.error("MongoDB Connection Error!");
-    if (err.message.includes("Server selection timed out") || err.message.includes("ETIMEOUT")) {
-      console.error("POSSIBLY AN IP WHITELIST ISSUE: Please ensure your current IP is whitelisted in MongoDB Atlas (Network Access).");
-    }
-    console.error("Details:", err.message);
-  });
+}
 
 
 // models
