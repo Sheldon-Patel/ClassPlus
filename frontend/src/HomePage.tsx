@@ -358,8 +358,8 @@ const HomePage = () => {
       <footer className="text-center py-10 theme-transition border-t-8 border-black bg-[var(--surface-2)]">
         <div className="container-custom flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <img src="/favicon.png" alt="ClassPure Logo" className="w-8 h-8 object-contain" />
-            <span className="font-black text-xl uppercase tracking-tighter">ClassPure</span>
+            <img src="/favicon.svg" alt="ClassPure Logo" className="w-8 h-8 object-contain" />
+            <span className="font-black text-xl tracking-tighter">ClassPure</span>
           </div>
           <p className="text-black font-bold text-sm">
             &copy; {new Date().getFullYear()} ClassPure. All rights reserved.
