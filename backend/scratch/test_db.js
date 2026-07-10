@@ -4,7 +4,7 @@ require('dotenv').config();
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI, {
-    dbName: process.env.DB_NAME || "intelliquiz",
+    dbName: process.env.DB_NAME || "classpure",
 })
 .then(() => {
     console.log("DB CONNECTION SUCCESS");

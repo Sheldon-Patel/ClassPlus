@@ -219,7 +219,7 @@ const HomePage = () => {
           <div className="container-custom relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase mb-6 text-black border-4 border-black bg-[var(--nb-yellow)] inline-block px-6 py-3 shadow-[var(--shadow)]">
-                Why Choose ClassPlus?
+                Why Choose ClassPure?
               </h2>
               <p className="text-xl max-w-2xl mx-auto font-bold text-black bg-white border-4 border-black p-4 shadow-[var(--shadow-sm)]">
                 Experience the next generation of personalized learning with cutting-edge AI technology.
@@ -330,7 +330,7 @@ const HomePage = () => {
             </h2>
             <div className="space-y-8 text-lg sm:text-xl leading-relaxed max-w-4xl mx-auto" style={{ color: 'var(--text-muted)' }}>
               <p>
-                ClassPlus didn't start in a boardroom. It started in the classroom. We saw educators struggling with clunky interfaces and tedious administration, taking away precious time that should have been spent inspiring students.
+                ClassPure didn't start in a boardroom. It started in the classroom. We saw educators struggling with clunky interfaces and tedious administration, taking away precious time that should have been spent inspiring students.
               </p>
               <p>
                 We built this platform to be the tool we always wanted: something that feels natural, works instantly, and actually makes the day easier. No complex setups, no friction—just a clean, powerful space for learning to thrive.
@@ -358,11 +358,11 @@ const HomePage = () => {
       <footer className="text-center py-10 theme-transition border-t-8 border-black bg-[var(--surface-2)]">
         <div className="container-custom flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <img src="/favicon.png" alt="ClassPlus Logo" className="w-8 h-8 object-contain" />
-            <span className="font-black text-xl uppercase tracking-tighter">ClassPlus</span>
+            <img src="/favicon.png" alt="ClassPure Logo" className="w-8 h-8 object-contain" />
+            <span className="font-black text-xl uppercase tracking-tighter">ClassPure</span>
           </div>
           <p className="text-black font-bold text-sm">
-            &copy; {new Date().getFullYear()} ClassPlus. All rights reserved.
+            &copy; {new Date().getFullYear()} ClassPure. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm font-bold uppercase tracking-wide text-black">
             <a href="#" className="hover:bg-[var(--nb-yellow)] px-2 border-2 border-transparent hover:border-black transition-all">Privacy</a>

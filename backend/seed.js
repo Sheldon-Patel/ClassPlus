@@ -97,8 +97,8 @@ async function seedUser(name, password, points) {
 
 async function seed() {
     try {
-        await mongoose.connect(MONGODB_URI, { dbName: 'intelliquiz' });
-        console.log('Connected to MongoDB (intelliquiz)');
+        await mongoose.connect(MONGODB_URI, { dbName: 'classpure' });
+        console.log('Connected to MongoDB (classpure)');
 
         await seedUser('ansh', '123456789', 2500);
         await seedUser('test123', 'test123', 1800);

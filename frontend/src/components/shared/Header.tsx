@@ -40,12 +40,12 @@ export const Header = () => {
                         className="flex items-center gap-2.5 cursor-pointer shrink-0"
                         onClick={() => navigate(homePath)}
                     >
-                        <img src="/favicon.png" alt="ClassPlus Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
+                        <img src="/favicon.png" alt="ClassPure Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
                         <span
                             className="text-xl sm:text-2xl font-black uppercase tracking-tight text-black"
                             style={{ textShadow: "-2px -2px 0 var(--nb-yellow), 2px 2px 0 var(--nb-blue)" }}
                         >
-                            ClassPlus
+                            ClassPure
                         </span>
                     </div>
 

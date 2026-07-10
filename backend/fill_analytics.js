@@ -7,7 +7,7 @@ const QuizResult = require('./Model/QuizResult');
 
 async function fillAnalytics() {
     try {
-        await mongoose.connect(process.env.MONGODB_URI, { dbName: 'intelliquiz' });
+        await mongoose.connect(process.env.MONGODB_URI, { dbName: 'classpure' });
         console.log("Connected to MongoDB");
 
         // 1. Define topics

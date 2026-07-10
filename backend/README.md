@@ -1,4 +1,4 @@
-# Backend for IntelliClass
+# Backend for ClassPure
 
 This is a minimal Express + MongoDB (Mongoose) backend used by the frontend.
 
@@ -9,7 +9,7 @@ Environment
 ```
 MONGODB_URI=mongodb://127.0.0.1:27017
 PORT=8080
-DB_NAME=intelliquiz
+DB_NAME=classpure
 ```
 
 Install & run

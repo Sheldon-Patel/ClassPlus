@@ -68,7 +68,7 @@ server.listen(PORT, () => {
 if (MONGODB_URI) {
   mongoose
     .connect(MONGODB_URI, {
-      dbName: process.env.DB_NAME || "intelliquiz",
+      dbName: process.env.DB_NAME || "classpure",
     })
     .then(() => {
       console.log("Connected to MongoDB successfully");
