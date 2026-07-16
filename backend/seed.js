@@ -100,7 +100,7 @@ async function seed() {
         await mongoose.connect(MONGODB_URI, { dbName: 'classpure' });
         console.log('Connected to MongoDB (classpure)');
 
-        await seedUser('ansh', '123456789', 2500);
+        await seedUser('Sheldon', '123456', 2500);
         await seedUser('test123', 'test123', 1800);
 
         console.log('Seeding completed successfully!');
