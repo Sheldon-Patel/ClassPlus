@@ -80,9 +80,9 @@ export const Navbar = () => {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                ? "bg-[var(--surface)] border-b-4 border-[var(--border)] py-2"
-                : "bg-[var(--surface)] border-b-4 border-[var(--border)] py-4"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md ${isScrolled
+                ? "bg-[var(--surface)]/80 border-b border-[var(--border-subtle)] py-2 shadow-sm"
+                : "bg-transparent py-4"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,8 +91,7 @@ export const Navbar = () => {
                     <Link to="/" className="flex items-center gap-2 group shrink-0">
                         <img src="/favicon.svg" alt="ClassPure Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md group-hover:scale-110 transition-transform" />
                         <span 
-                            className="text-xl sm:text-2xl font-black tracking-tight text-black hidden sm:block"
-                            style={{ textShadow: "-1px -1px 0 var(--nb-yellow), 1px 1px 0 var(--nb-blue)" }}
+                            className="text-xl sm:text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-[var(--nb-blue)] hidden sm:block"
                         >
                             ClassPure
                         </span>
@@ -104,7 +103,7 @@ export const Navbar = () => {
                             <button
                                 key={link.name}
                                 onClick={() => scrollToSection(link.path.split('#')[1] || "home")}
-                                className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer"
+                                className="text-sm font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors cursor-pointer"
                             >
                                 {link.name}
                             </button>
@@ -115,14 +114,14 @@ export const Navbar = () => {
                     <div className="flex items-center gap-2 sm:gap-4">
                         <button
                             onClick={toggleTheme}
-                            className="w-10 h-10 rounded-none flex items-center justify-center transition-all hover:scale-105 active:scale-95 text-[var(--text)] bg-[var(--nb-yellow)] border-4 border-[var(--border)] shadow-[var(--shadow-sm)] hover:shadow-none hover:translate-y-1 hover:translate-x-1"
+                            className="w-10 h-10 rounded-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 text-[var(--text)] bg-[var(--surface-2)] border border-[var(--border)] shadow-sm hover:bg-[var(--surface-3)]"
                         >
                             {isDark ? <SunIcon /> : <MoonIcon />}
                         </button>
                         <Button
                             onClick={() => navigate("/login")}
                             variant="secondary"
-                            className="hidden xs:flex px-4 py-2 text-sm"
+                            className="hidden xs:flex px-4 py-2 text-sm rounded-lg"
                         >
                             Sign In
                         </Button>
@@ -130,7 +129,7 @@ export const Navbar = () => {
                         {/* Mobile menu button */}
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="md:hidden w-10 h-10 flex items-center justify-center text-[var(--text)] bg-[var(--surface-2)] border-2 border-[var(--border)] shadow-[var(--shadow-sm)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none"
+                            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-[var(--text)] bg-[var(--surface-2)] border border-[var(--border)] shadow-sm hover:bg-[var(--surface-3)]"
                         >
                             {isMenuOpen ? <XIcon /> : <MenuIcon />}
                         </button>
@@ -141,14 +140,14 @@ export const Navbar = () => {
             {/* Mobile Navigation */}
             <div
                 className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
-                    } bg-[var(--surface)] border-b-4 border-[var(--border)]`}
+                    } bg-[var(--surface)] border-b border-[var(--border-subtle)]`}
             >
                 <div className="px-4 pt-2 pb-6 space-y-2">
                     {isHomePage && navLinks.map((link) => (
                         <button
                             key={link.name}
                             onClick={() => scrollToSection(link.path.split('#')[1] || "home")}
-                            className="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--surface-2)] transition-all"
+                            className="block w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--surface-2)] transition-all"
                         >
                             {link.name}
                         </button>
@@ -159,7 +158,7 @@ export const Navbar = () => {
                                 setIsMenuOpen(false);
                                 navigate("/login");
                             }}
-                            className="w-full"
+                            className="w-full rounded-lg"
                         >
                             Sign In
                         </Button>

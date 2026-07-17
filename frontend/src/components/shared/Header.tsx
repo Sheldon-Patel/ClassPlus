@@ -27,13 +27,13 @@ export const Header = () => {
 
     return (
         <header
-            className="sticky top-0 z-40 transition-all duration-300"
+            className="sticky top-0 z-40 transition-all duration-300 backdrop-blur-md"
             style={{
-                background: isDark ? '#121212' : '#ffffff',
-                borderBottom: `4px solid ${isDark ? '#ffffff' : '#000000'}`,
+                background: isDark ? 'rgba(9, 10, 15, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                borderBottom: `1px solid var(--border-subtle)`,
             }}
         >
-            <div className="max-w-7xl mx-auto px-2 sm:px-6 py-3 min-h-[4rem] flex flex-wrap lg:flex-nowrap items-center justify-between gap-y-3 gap-x-2 sm:gap-x-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 min-h-[4rem] flex flex-wrap lg:flex-nowrap items-center justify-between gap-y-3 gap-x-2 sm:gap-x-4">
                 <div className="flex items-center justify-between w-full lg:w-auto lg:basis-0 lg:flex-1 shrink-0 gap-2">
                     {/* Logo */}
                     <div
@@ -42,8 +42,7 @@ export const Header = () => {
                     >
                         <img src="/favicon.svg" alt="ClassPure Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
                         <span
-                            className="text-xl sm:text-2xl font-black tracking-tight text-black"
-                            style={{ textShadow: "-1px -1px 0 var(--nb-yellow), 1px 1px 0 var(--nb-blue)" }}
+                            className="text-xl sm:text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-[var(--nb-blue)]"
                         >
                             ClassPure
                         </span>
@@ -53,13 +52,13 @@ export const Header = () => {
                     <div className="flex items-center gap-2 shrink-0 lg:hidden">
                         <button
                             onClick={toggleTheme}
-                            className="w-8 h-8 rounded-none flex items-center justify-center transition-all bg-[var(--surface-2)] border-2 border-[var(--border)] shadow-[var(--shadow-sm)]"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-[var(--surface-2)] border border-[var(--border)] shadow-sm hover:bg-[var(--surface-3)]"
                             aria-label="Toggle theme"
                         >
                             {isDark ? <SunIcon /> : <MoonIcon />}
                         </button>
                         {currentUser && (
-                            <Button onClick={logout} variant="secondary" className="text-xs px-2 py-1 h-8">
+                            <Button onClick={logout} variant="secondary" className="text-xs px-2 py-1 h-8 rounded-md">
                                 Logout
                             </Button>
                         )}
@@ -68,7 +67,7 @@ export const Header = () => {
 
                 {/* Nav links */}
                 {currentUser && (
-                    <nav className="flex flex-wrap items-center justify-center lg:justify-center gap-x-3 gap-y-2 w-full lg:basis-0 lg:flex-1 lg:min-w-0 pb-2 lg:pb-0">
+                    <nav className="flex flex-wrap items-center justify-center lg:justify-center gap-x-2 gap-y-1.5 w-full lg:basis-0 lg:flex-1 lg:min-w-0 pb-2 lg:pb-0">
                         {[
                             { to: '/leaderboard', label: 'Leaderboard' },
                             ...(currentUser.role === Roles.STUDENT ? [{ to: '/discussions', label: 'Discussions' }] : []),
@@ -81,16 +80,7 @@ export const Header = () => {
                             <Link
                                 key={to}
                                 to={to}
-                                className="px-2 py-1 text-xs sm:text-sm font-bold uppercase transition-all duration-150 border-2 border-transparent hover:border-black whitespace-nowrap bg-[var(--surface-2)] sm:bg-transparent"
-                                style={{ color: 'var(--text-muted)' }}
-                                onMouseEnter={e => {
-                                    (e.currentTarget as HTMLElement).style.color = 'var(--text)';
-                                    (e.currentTarget as HTMLElement).style.background = 'var(--nb-yellow)';
-                                }}
-                                onMouseLeave={e => {
-                                    (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)';
-                                    (e.currentTarget as HTMLElement).style.background = window.innerWidth < 640 ? 'var(--surface-2)' : 'transparent';
-                                }}
+                                className="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg uppercase transition-all duration-200 whitespace-nowrap text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]"
                             >
                                 {label}
                             </Link>
@@ -99,11 +89,10 @@ export const Header = () => {
                 )}
 
                 {/* Right side (Desktop) */}
-                <div className="hidden lg:flex items-center justify-end gap-2 lg:basis-0 lg:flex-1 shrink-0">
+                <div className="hidden lg:flex items-center justify-end gap-3 lg:basis-0 lg:flex-1 shrink-0">
                     {/* Points */}
                     {currentUser?.role === Roles.STUDENT && (
-                        <div className="flex items-center gap-1 font-bold text-yellow-500 text-sm px-2 py-1 rounded-lg"
-                            style={{ background: 'var(--surface-2)' }}>
+                        <div className="flex items-center gap-1.5 font-bold text-yellow-500 text-sm px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-2)]">
                             <TrophyIcon className="w-4 h-4" />
                             <span>{currentUser.points}</span>
                         </div>
@@ -113,18 +102,19 @@ export const Header = () => {
                     {currentUser && (
                         <Link
                             to={`/${currentUser.role.toLowerCase()}/${currentUser._id || currentUser.id}`}
-                            className="inline text-sm font-black px-3 py-1.5 transition-all border-2 border-transparent hover:border-black"
-                            style={{ color: 'var(--text)', background: 'var(--nb-yellow)' }}
+                            className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-[var(--accent-light)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all duration-200"
                         >
-                            {currentUser.name}
-                            <span className="ml-1 opacity-60 text-xs">({currentUser.role})</span>
+                            <span>{currentUser.name}</span>
+                            <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-black/10">
+                                {currentUser.role}
+                            </span>
                         </Link>
                     )}
 
                     {/* Theme toggle */}
                     <button
                         onClick={toggleTheme}
-                        className="w-10 h-10 rounded-none flex items-center justify-center transition-all hover:scale-105 active:scale-95 text-[var(--text)] bg-[var(--surface-2)] border-2 border-[var(--border)] shadow-[var(--shadow-sm)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none"
+                        className="w-10 h-10 rounded-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 text-[var(--text)] bg-[var(--surface-2)] border border-[var(--border)] shadow-sm hover:bg-[var(--surface-3)]"
                         aria-label="Toggle theme"
                     >
                         {isDark ? <SunIcon /> : <MoonIcon />}
@@ -132,7 +122,7 @@ export const Header = () => {
 
                     {/* Logout */}
                     {currentUser && (
-                        <Button onClick={logout} variant="secondary" className="text-sm px-3 py-1.5 h-9">
+                        <Button onClick={logout} variant="secondary" className="text-sm px-4 py-2 h-10 rounded-lg">
                             Logout
                         </Button>
                     )}
