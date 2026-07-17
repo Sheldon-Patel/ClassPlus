@@ -19,7 +19,12 @@ const MoonIcon = () => (
     </svg>
 );
 
-export const Header = () => {
+interface HeaderProps {
+    toggleSidebar?: () => void;
+    isSidebarOpen?: boolean;
+}
+
+export const Header: React.FC<HeaderProps> = ({ toggleSidebar, isSidebarOpen }) => {
     const { currentUser, logout } = useAppContext();
     const { isDark, toggleTheme } = useTheme();
     const navigate = useNavigate();
@@ -27,85 +32,60 @@ export const Header = () => {
 
     return (
         <header
-            className="sticky top-0 z-40 transition-all duration-300 backdrop-blur-md"
+            className="sticky top-0 z-40 transition-all duration-300 border-b-4 border-black"
             style={{
-                background: isDark ? 'rgba(9, 10, 15, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                borderBottom: `1px solid var(--border-subtle)`,
+                background: 'var(--surface)',
+                borderColor: 'var(--border)',
             }}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 min-h-[4rem] flex flex-wrap lg:flex-nowrap items-center justify-between gap-y-3 gap-x-2 sm:gap-x-4">
-                <div className="flex items-center justify-between w-full lg:w-auto lg:basis-0 lg:flex-1 shrink-0 gap-2">
-                    {/* Logo */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 min-h-[4rem] flex items-center justify-between gap-4">
+                
+                {/* Logo and Menu Toggle */}
+                <div className="flex items-center gap-3 lg:basis-0 lg:flex-1 shrink-0">
+                    {currentUser && toggleSidebar && (
+                        <button
+                            onClick={toggleSidebar}
+                            className="w-10 h-10 flex items-center justify-center font-black text-xl border-4 border-black bg-[var(--surface-2)] text-[var(--text)] cursor-pointer hover:bg-[var(--nb-yellow)] transition-colors shadow-[var(--shadow-sm)]"
+                            style={{ borderColor: 'var(--border)' }}
+                            aria-label="Toggle sidebar"
+                        >
+                            {isSidebarOpen ? '✕' : '☰'}
+                        </button>
+                    )}
+
                     <div
                         className="flex items-center gap-2.5 cursor-pointer shrink-0"
                         onClick={() => navigate(homePath)}
                     >
-                        <img src="/favicon.svg" alt="ClassPure Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
+                        <img src="/favicon.svg" alt="ClassPure Logo" className="w-8 h-8 object-contain" />
                         <span
-                            className="text-xl sm:text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-[var(--nb-blue)]"
+                            className="text-xl sm:text-2xl font-black uppercase tracking-tight text-[var(--text)]"
+                            style={{ textShadow: isDark ? '2px 2px 0px #ff007f' : '2px 2px 0px var(--nb-yellow)' }}
                         >
                             ClassPure
                         </span>
                     </div>
-
-                    {/* Right side (Mobile) */}
-                    <div className="flex items-center gap-2 shrink-0 lg:hidden">
-                        <button
-                            onClick={toggleTheme}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-[var(--surface-2)] border border-[var(--border)] shadow-sm hover:bg-[var(--surface-3)]"
-                            aria-label="Toggle theme"
-                        >
-                            {isDark ? <SunIcon /> : <MoonIcon />}
-                        </button>
-                        {currentUser && (
-                            <Button onClick={logout} variant="secondary" className="text-xs px-2 py-1 h-8 rounded-md">
-                                Logout
-                            </Button>
-                        )}
-                    </div>
                 </div>
 
-                {/* Nav links */}
-                {currentUser && (
-                    <nav className="flex flex-wrap items-center justify-center lg:justify-center gap-x-2 gap-y-1.5 w-full lg:basis-0 lg:flex-1 lg:min-w-0 pb-2 lg:pb-0">
-                        {[
-                            { to: '/leaderboard', label: 'Leaderboard' },
-                            ...(currentUser.role === Roles.STUDENT ? [{ to: '/discussions', label: 'Discussions' }] : []),
-                            ...(currentUser.role !== Roles.ADMIN ? [{ to: '/classrooms', label: 'Classrooms' }] : []),
-                            ...(currentUser.role === Roles.STUDENT ? [
-                                { to: '/learning', label: 'Learning' },
-                                { to: '/resources', label: 'Resources' },
-                            ] : []),
-                        ].map(({ to, label }) => (
-                            <Link
-                                key={to}
-                                to={to}
-                                className="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg uppercase transition-all duration-200 whitespace-nowrap text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]"
-                            >
-                                {label}
-                            </Link>
-                        ))}
-                    </nav>
-                )}
-
-                {/* Right side (Desktop) */}
-                <div className="hidden lg:flex items-center justify-end gap-3 lg:basis-0 lg:flex-1 shrink-0">
-                    {/* Points */}
+                {/* Right side */}
+                <div className="flex items-center justify-end gap-2.5 lg:basis-0 lg:flex-1 shrink-0">
+                    {/* Points (Desktop/Tablet) */}
                     {currentUser?.role === Roles.STUDENT && (
-                        <div className="flex items-center gap-1.5 font-bold text-yellow-500 text-sm px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-2)]">
+                        <div className="hidden sm:flex items-center gap-1.5 font-black text-yellow-500 text-sm px-3 py-1.5 border-4 border-black bg-[var(--surface-2)] shadow-[var(--shadow-sm)]" style={{ borderColor: 'var(--border)' }}>
                             <TrophyIcon className="w-4 h-4" />
                             <span>{currentUser.points}</span>
                         </div>
                     )}
 
-                    {/* User name */}
+                    {/* User profile (Desktop/Tablet) */}
                     {currentUser && (
                         <Link
                             to={`/${currentUser.role.toLowerCase()}/${currentUser._id || currentUser.id}`}
-                            className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-[var(--accent-light)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all duration-200"
+                            className="hidden md:inline-flex items-center gap-2 text-sm font-black px-4 py-2 border-4 border-black bg-[var(--nb-yellow)] text-black hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none transition-all shadow-[var(--shadow-sm)]"
+                            style={{ borderColor: 'var(--border)' }}
                         >
                             <span>{currentUser.name}</span>
-                            <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-black/10">
+                            <span className="text-[10px] uppercase font-black px-1.5 py-0.5 border-2 border-black bg-white text-black">
                                 {currentUser.role}
                             </span>
                         </Link>
@@ -114,7 +94,8 @@ export const Header = () => {
                     {/* Theme toggle */}
                     <button
                         onClick={toggleTheme}
-                        className="w-10 h-10 rounded-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 text-[var(--text)] bg-[var(--surface-2)] border border-[var(--border)] shadow-sm hover:bg-[var(--surface-3)]"
+                        className="w-10 h-10 flex items-center justify-center transition-all text-[var(--text)] bg-[var(--surface-2)] border-4 border-black shadow-[var(--shadow-sm)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none cursor-pointer"
+                        style={{ borderColor: 'var(--border)' }}
                         aria-label="Toggle theme"
                     >
                         {isDark ? <SunIcon /> : <MoonIcon />}
@@ -122,7 +103,7 @@ export const Header = () => {
 
                     {/* Logout */}
                     {currentUser && (
-                        <Button onClick={logout} variant="secondary" className="text-sm px-4 py-2 h-10 rounded-lg">
+                        <Button onClick={logout} variant="secondary" className="text-sm px-4 py-2 h-10">
                             Logout
                         </Button>
                     )}

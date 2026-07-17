@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN TOKENS — Modern Premium Light / Dark Theme
+   DESIGN TOKENS — Cyber Neo-Brutalist Theme (AI / Robotic Feel)
    ============================================================ */
 :root {
   /* Backgrounds */
-  --bg: #f8fafc; /* Slate-50 */
+  --bg: #f3f4f6; /* Slate gray canvas */
   --surface: #ffffff;
-  --surface-2: #f1f5f9; /* Slate-100 */
-  --surface-3: #e2e8f0; /* Slate-200 */
+  --surface-2: #e5e7eb;
+  --surface-3: #d1d5db;
 
   /* Borders */
-  --border: #cbd5e1; /* Slate-300 */
-  --border-2: #94a3b8; /* Slate-400 */
-  --border-subtle: rgba(0, 0, 0, 0.05);
+  --border: #000000;
+  --border-2: #000000;
+  --border-subtle: #000000;
 
   /* Text */
-  --text: #0f172a; /* Slate-900 */
-  --text-muted: #475569; /* Slate-600 */
-  --text-subtle: #64748b; /* Slate-500 */
+  --text: #000000;
+  --text-muted: #1f2937;
+  --text-subtle: #4b5563;
 
-  /* Accent — Premium Gradient Colors */
-  --accent: #6366f1; /* Indigo-500 */
-  --accent-hover: #4f46e5; /* Indigo-600 */
-  --accent-light: #e0e7ff; /* Indigo-100 */
+  /* Accent — Cyber brutalist colors */
+  --accent: #7c3aed; /* Electric Violet */
+  --accent-hover: #6d28d9;
+  --accent-light: #ddd6fe;
 
-  /* Theme-specific accent points */
-  --nb-yellow: #f59e0b; /* Amber-500 */
-  --nb-blue: #3b82f6; /* Blue-500 */
-  --nb-green: #10b981; /* Emerald-500 */
-  --nb-pink: #ec4899; /* Pink-500 */
+  /* High contrast colors */
+  --nb-yellow: #facc15; /* Cyber yellow */
+  --nb-blue: #06b6d4;  /* Cyber cyan */
+  --nb-green: #10b981; /* Neon green */
+  --nb-pink: #f43f5e;  /* Laser pink */
 
   /* Status */
   --success: #10b981;
@@ -37,11 +37,11 @@
   --warning: #f59e0b;
   --info: #3b82f6;
 
-  /* Modern Soft Shadows */
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 12px 20px -3px rgba(99, 102, 241, 0.15), 0 4px 12px -4px rgba(99, 102, 241, 0.15);
+  /* Cyber Neo-Brutalism Hard Shadows */
+  --shadow-sm: 3px 3px 0px 0px rgba(0, 0, 0, 1);
+  --shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-lg: 10px 10px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-hover: 2px 2px 0px 0px rgba(0, 0, 0, 1);
 
   --section-py: 3rem;
   --container-px: 1.5rem;
@@ -62,32 +62,34 @@
 }
 
 html.dark {
-  --bg: #090a0f; /* Deep tech background */
-  --surface: #12131a; /* Dark elevated surface */
-  --surface-2: #1c1e26;
-  --surface-3: #2a2d3d;
+  /* Matrix/Hacker/Cyber theme */
+  --bg: #07080b; /* Matrix dark */
+  --surface: #0f111a;
+  --surface-2: #181b28;
+  --surface-3: #222638;
 
-  --border: #1e293b; /* Slate-800 */
-  --border-2: #334155;
-  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border: #39ff14; /* Electric neon green! */
+  --border-2: #00f0ff; /* Cyber cyan! */
+  --border-subtle: rgba(57, 255, 20, 0.4);
 
-  --text: #f8fafc;
-  --text-muted: #cbd5e1;
-  --text-subtle: #94a3b8;
+  --text: #39ff14; /* Neon green terminal text */
+  --text-muted: #8dfc8d;
+  --text-subtle: #55b255;
 
-  --accent: #818cf8; /* Indigo-400 */
-  --accent-hover: #6366f1;
-  --accent-light: rgba(99, 102, 241, 0.15);
+  --accent: #ff007f; /* Laser pink */
+  --accent-hover: #e0006c;
+  --accent-light: rgba(255, 0, 127, 0.2);
 
-  --nb-yellow: #fbbf24;
-  --nb-blue: #60a5fa;
-  --nb-green: #34d399;
-  --nb-pink: #f472b6;
+  --nb-yellow: #39ff14; /* Cyber green */
+  --nb-blue: #00f0ff;  /* Cyber cyan */
+  --nb-green: #39ff14;
+  --nb-pink: #ff007f;  /* Cyber pink */
 
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  --shadow-hover: 0 12px 24px -3px rgba(99, 102, 241, 0.3), 0 4px 12px -4px rgba(99, 102, 241, 0.3);
+  /* Neon Shadows */
+  --shadow-sm: 3px 3px 0px 0px #39ff14;
+  --shadow: 6px 6px 0px 0px #39ff14;
+  --shadow-lg: 10px 10px 0px 0px #39ff14;
+  --shadow-hover: 2px 2px 0px 0px #39ff14;
 }
 
 /* ============================================================
@@ -105,7 +107,7 @@ html.dark .bg-gray-100 { background-color: var(--surface-3) !important; }
 
 html.dark .border-black { border-color: var(--border) !important; }
 html.dark .border-gray-200 { border-color: var(--surface-3) !important; }
-html.dark .border-gray-300 { border-color: var(--text-subtle) !important; }
+html.dark .border-gray-300 { border-color: var(--border-subtle) !important; }
 
 /* Recharts / Chart Overrides */
 html.dark .recharts-cartesian-grid-horizontal line,
@@ -120,50 +122,24 @@ html.dark .recharts-legend-item-text {
 }
 
 /* ============================================================
-   NEO-BRUTALIST NORMALIZATION OVERRIDES
-   Overrides hardcoded thick black borders and flat offsets
+   CYBER NEO-BRUTALIST NORMALIZATION OVERRIDES
+   Forces all cards, buttons, modals, inputs to have thick borders
+   and sharp edges (0px)
    ============================================================ */
-.border-4:not(.border-l-4) {
-  border-width: 1px !important;
-}
-.border-2:not(.border-l-2) {
-  border-width: 1px !important;
-}
-.border-b-4 {
-  border-bottom-width: 1px !important;
-  border-bottom-color: var(--border) !important;
-}
-.border-b-2 {
-  border-bottom-width: 1px !important;
-  border-bottom-color: var(--border) !important;
-}
-.border-t-4 {
-  border-top-width: 1px !important;
-  border-top-color: var(--border) !important;
-}
-.border-t-2 {
-  border-top-width: 1px !important;
-  border-top-color: var(--border) !important;
-}
-.border-r-4 {
-  border-right-width: 1px !important;
-  border-right-color: var(--border) !important;
-}
-.border-r-2 {
-  border-right-width: 1px !important;
-  border-right-color: var(--border) !important;
-}
-.border-black {
+.border-4, .border-2, .border-b-4, .border-b-2, .border-t-4, .border-t-2, .border-r-4, .border-r-2, .border-l-4 {
   border-color: var(--border) !important;
-}
-.border-white {
-  border-color: var(--border) !important;
-}
-.rounded-none {
-  border-radius: 8px !important;
 }
 
-/* Transform flat brutal shadows into soft modern shadows */
+/* Force sharp edges on all brutalist elements */
+.rounded-none, .rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl, .rounded-full {
+  border-radius: 0px !important;
+}
+
+/* Reset buttons and forms to use hard shadow offsets */
+.shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
+  box-shadow: var(--shadow) !important;
+}
+
 .shadow-\[var\(--shadow\)\] {
   box-shadow: var(--shadow) !important;
 }
@@ -189,89 +165,43 @@ html.dark .recharts-legend-item-text {
   box-shadow: var(--shadow) !important;
 }
 
-/* Modernize rounded corners for lists and containers */
-.p-4, .p-5, .p-6, .p-8 {
-  border-radius: 12px;
-}
-
-/* Correct the visual jumps */
-.hover\:translate-x-1:hover, 
-.hover\:translate-y-1:hover,
-.hover\:translate-x-\[-2px\]:hover,
-.hover\:translate-y-\[-2px\]:hover,
-.active\:translate-y-1:active,
-.active\:translate-x-1:active {
-  transform: none !important;
-}
-
-/* ============================================================
-   GLOBAL BASE
-   ============================================================ */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 14px;
-}
-
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
-}
-
-/* ============================================================
-   FORM ELEMENT BASE STYLES
-   ============================================================ */
+/* Standard sizing and borders for inputs */
 input,
 textarea,
 select {
   background-color: var(--surface);
   color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: 3px solid var(--border) !important;
+  border-radius: 0px !important;
   box-shadow: var(--shadow-sm);
   padding: 10px 14px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease-out;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-light);
-  transform: none;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-subtle);
+  border-color: var(--border-2) !important;
+  box-shadow: var(--shadow) !important;
+  transform: translate(-2px, -2px);
 }
 
 /* Subtle tech grid background */
 .bg-grid {
   background-image:
-    linear-gradient(color-mix(in srgb, var(--border) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--border) 4%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--border) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 6%, transparent) 1px, transparent 1px);
   background-size: 32px 32px;
   background-position: -1px -1px;
 }
 
-/* Modern Card */
+/* Cyber card */
 .nb-card {
   background-color: var(--surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
+  border: 4px solid var(--border) !important;
+  border-radius: 0px !important;
+  box-shadow: var(--shadow) !important;
 }
 
 .container-custom {
@@ -287,78 +217,50 @@ textarea::placeholder {
    TRANSITIONS
    ============================================================ */
 .theme-transition {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 /* ============================================================
    SCROLLBAR
    ============================================================ */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--surface);
+  border-left: 2px solid var(--border);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 9999px;
+  background: var(--nb-yellow);
+  border: 2px solid var(--border);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--border-2);
+  background: var(--accent);
 }
 
-/* ============================================================
-   RESPONSIVE UTILITIES & GRID HELPERS
-   ============================================================ */
-.grid-stack {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .grid-stack-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid-stack-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid-stack-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Elegant Typography */
+/* Heading Typography */
 h1 {
+  font-family: 'Courier New', Courier, monospace;
   font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 h2 {
+  font-family: 'Courier New', Courier, monospace;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.2;
-  letter-spacing: -0.015em;
 }
 
 h3 {
+  font-family: 'Courier New', Courier, monospace;
   font-size: clamp(1.2rem, 3vw, 1.75rem);
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1.25;
-}
-
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }

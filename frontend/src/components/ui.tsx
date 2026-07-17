@@ -18,17 +18,17 @@ export const Button = <C extends React.ElementType = "button">({
   const Component = as || "button";
 
   const base =
-    "px-4 py-2 sm:px-5 sm:py-2.5 font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 text-sm sm:text-base border uppercase tracking-wider rounded-lg cursor-pointer";
+    "px-4 py-2 sm:px-5 sm:py-2.5 font-black uppercase tracking-wide transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 text-sm sm:text-base border-4 border-[var(--border)] rounded-none cursor-pointer";
 
   const variants: Record<string, string> = {
     primary:
-      "bg-gradient-to-r from-[var(--accent)] to-[#4f46e5] hover:from-[#4f46e5] hover:to-[var(--accent)] text-white shadow-md hover:shadow-lg border-transparent transform hover:-translate-y-0.5 active:translate-y-0",
+      "bg-[var(--nb-yellow)] text-black shadow-[var(--shadow-sm)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none active:translate-y-1 active:translate-x-1",
     secondary:
-      "bg-[var(--surface-2)] hover:bg-[var(--surface-3)] text-[var(--text)] border-[var(--border)] shadow-sm hover:-translate-y-0.5 active:translate-y-0",
+      "bg-[var(--surface-2)] text-[var(--text)] shadow-[var(--shadow-sm)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none active:translate-y-1 active:translate-x-1",
     danger:
-      "bg-gradient-to-r from-[var(--error)] to-[#ff6b6b] hover:from-[#d32f2f] hover:to-[var(--error)] text-white shadow-md hover:shadow-lg border-transparent transform hover:-translate-y-0.5 active:translate-y-0",
+      "bg-[var(--nb-pink)] text-white shadow-[var(--shadow-sm)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none active:translate-y-1 active:translate-x-1",
     ghost:
-      "bg-transparent hover:bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text)] border-transparent",
+      "bg-transparent text-[var(--text-muted)] hover:bg-[var(--surface-2)] border-transparent hover:border-[var(--border)]",
   };
 
   return (
@@ -48,7 +48,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card: React.FC<CardProps> = ({ children, className = "", style, ...props }) => (
   <div
-    className={`bg-[var(--surface)] border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6 transition-all duration-300 hover:shadow-md ${className}`}
+    className={`nb-card p-6 theme-transition rounded-none ${className}`}
     style={style}
     {...props}
   >
@@ -58,7 +58,7 @@ export const Card: React.FC<CardProps> = ({ children, className = "", style, ...
 
 // ─── Spinner ─────────────────────────────────────────────────────────────────
 export const Spinner = () => (
-  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[var(--accent)]" />
+  <div className="animate-spin h-5 w-5 border-4 border-t-transparent border-[var(--border-2)]" />
 );
 
 // ─── Modal ───────────────────────────────────────────────────────────────────
@@ -73,18 +73,18 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
   if (!isOpen) return null;
   return (
     <div
-      className="fixed inset-0 z-50 flex justify-center items-start p-4 bg-slate-900/40 backdrop-blur-sm sm:pt-16"
+      className="fixed inset-0 z-50 flex justify-center items-start p-4 bg-black/50 backdrop-blur-sm sm:pt-16"
       onClick={onClose}
     >
       <div
-        className="bg-[var(--surface)] border border-[var(--border)] shadow-2xl rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col pointer-events-auto overflow-hidden theme-transition animate-slideIn"
+        className="bg-[var(--surface)] border-4 border-[var(--border)] shadow-[var(--shadow-lg)] rounded-none w-full max-w-2xl max-h-[90vh] flex flex-col pointer-events-auto overflow-hidden theme-transition animate-slideIn"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-5 border-b border-[var(--border-subtle)] bg-[var(--surface-2)] flex justify-between items-center">
-          <h2 className="text-lg sm:text-xl font-bold text-[var(--text)]">{title}</h2>
+        <div className="p-4 sm:p-5 border-b-4 border-[var(--border)] bg-[var(--nb-yellow)] text-black flex justify-between items-center">
+          <h2 className="text-lg sm:text-xl font-black uppercase">{title}</h2>
           <button
             onClick={onClose}
-            className="text-[var(--text-muted)] hover:text-[var(--text)] w-8 h-8 rounded-full flex items-center justify-center text-xl leading-none hover:bg-[var(--surface-3)] transition-colors cursor-pointer"
+            className="text-black hover:bg-black/10 w-8 h-8 rounded-none flex items-center justify-center text-2xl font-black leading-none transition-colors cursor-pointer"
           >
             &times;
           </button>
@@ -134,12 +134,12 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
 const Toast: React.FC<ToastMessage> = ({ message, type }) => {
   const colors: Record<ToastType, string> = {
-    success: "bg-[var(--nb-green)] text-black border-transparent",
-    error: "bg-[var(--accent)] text-white border-transparent",
-    info: "bg-[var(--nb-blue)] text-white border-transparent",
+    success: "bg-[var(--nb-green)] text-black",
+    error: "bg-[var(--nb-pink)] text-white",
+    info: "bg-[var(--nb-blue)] text-black",
   };
   return (
-    <div className={`px-5 py-3 border rounded-xl shadow-xl font-bold uppercase ${colors[type]} animate-slideIn`}>
+    <div className={`px-5 py-3 border-4 border-black shadow-[var(--shadow)] font-black uppercase rounded-none ${colors[type]} animate-slideIn`}>
       {message}
     </div>
   );
@@ -154,7 +154,7 @@ interface TabsProps {
 
 export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, setActiveTab }) => {
   return (
-    <div className="flex flex-wrap items-center gap-2 border-b border-[var(--border-subtle)] pb-2 mb-4">
+    <div className="flex flex-wrap items-center gap-3 sm:gap-4 pb-2 border-b-4 border-[var(--border)] mb-6">
       {tabs.map((tab) => {
         const isActive = activeTab === tab;
 
@@ -163,11 +163,12 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, setActiveTab }) => 
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`
-              px-4 py-2 text-sm sm:text-base font-semibold uppercase tracking-wider
-              transition-all duration-200 border-b-2 -mb-[10px] cursor-pointer
+              px-4 py-2 font-black uppercase tracking-wide
+              text-sm sm:text-base border-4 border-[var(--border)] rounded-none
+              transition-all duration-150 cursor-pointer
               ${isActive
-                ? "border-[var(--accent)] text-[var(--accent)] font-black"
-                : "border-transparent text-[var(--text-muted)] hover:text-[var(--text)]"
+                ? "bg-[var(--nb-yellow)] text-black translate-x-0 translate-y-0 shadow-none border-[var(--border)]"
+                : "bg-[var(--surface-2)] text-[var(--text)] shadow-[var(--shadow-sm)] hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none"
               }
             `}
           >

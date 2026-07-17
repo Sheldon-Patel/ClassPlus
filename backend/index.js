@@ -967,21 +967,25 @@ app.post('/api/generate-mcqs', async (req, res) => {
 
     // Map to the format the Learning.tsx frontend expects
     const mcqs = rawQuestions.map(q => {
-      const correctAnswer = q.options[q.correctAnswerIndex];
+      const correctAnswer = (q.options && q.correctAnswerIndex !== undefined && q.correctAnswerIndex >= 0 && q.correctAnswerIndex < q.options.length)
+        ? q.options[q.correctAnswerIndex]
+        : (q.options && q.options.length > 0 ? q.options[0] : "Answer");
 
       // Find which transcript segment the question came from
       let sourceTimestamp = "0:00";
-      for (const seg of transcript) {
-        const segText = (seg.snippet || seg.text || '').toLowerCase();
-        if (segText.includes(correctAnswer.toLowerCase())) {
-          sourceTimestamp = seg.start_time_text || formatSeconds(seg.start || 0);
-          break;
+      if (correctAnswer) {
+        for (const seg of transcript) {
+          const segText = (seg.snippet || seg.text || '').toLowerCase();
+          if (correctAnswer && segText.includes(correctAnswer.toLowerCase())) {
+            sourceTimestamp = seg.start_time_text || formatSeconds(seg.start || 0);
+            break;
+          }
         }
       }
 
       return {
-        question: q.questionText,
-        options: q.options,
+        question: q.questionText || "Question",
+        options: q.options || ["Option 1", "Option 2", "Option 3", "Option 4"],
         correct_answer: correctAnswer,
         explanation: `The correct answer "${correctAnswer}" was found in the transcript at ${sourceTimestamp}.`,
         source_timestamp: sourceTimestamp,
