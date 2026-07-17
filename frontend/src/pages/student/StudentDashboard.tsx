@@ -194,10 +194,10 @@ const StudentDashboard = () => {
         <div className="lg:col-span-2 flex flex-col gap-6">
 
           <Card>
-            <h3 className="text-2xl font-black uppercase mb-6 text-black border-b-4 border-black pb-2">Assigned Quizzes</h3>
+            <h3 className="text-lg font-bold uppercase tracking-wider mb-6 text-[var(--text)] border-b border-[var(--border-subtle)] pb-2">Assigned Quizzes</h3>
             {isLoading ? (
               <div className="flex justify-center items-center p-8">
-                <div className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--accent)', borderTopColor: 'transparent' }}></div>
+                <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--accent)', borderTopColor: 'transparent' }}></div>
               </div>
             ) : error ? (
               <div className="p-4 rounded-lg" style={{ color: 'var(--error)', background: 'rgba(239,68,68,0.1)' }}>
@@ -216,18 +216,18 @@ const StudentDashboard = () => {
                     return (
                       <div
                         key={assignment._id || assignment.id}
-                        className="p-4 sm:p-5 flex flex-col xs:flex-row justify-between items-start xs:items-center gap-4 transition-all duration-150 ease-out hover:scale-[1.01] hover:translate-x-1 hover:translate-y-1 hover:shadow-none border-4 border-black shadow-[var(--shadow-sm)] bg-white"
+                        className="p-4 sm:p-5 flex flex-col xs:flex-row justify-between items-start xs:items-center gap-4 transition-all duration-200 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-2)] shadow-sm hover:shadow-md hover:border-[var(--accent)] border-l-4 border-l-[var(--nb-blue)]"
                       >
                         <div>
-                          <p className="font-black text-lg sm:text-2xl uppercase text-black">
+                          <p className="font-bold text-base sm:text-lg uppercase text-[var(--text)]">
                             {quiz.title}{" "}
                             {assignment.isLive && (
-                              <span className="text-xs sm:text-sm font-black text-white bg-red-600 px-3 py-1 ml-2 border-2 border-black inline-block transform -rotate-2">
+                              <span className="text-[10px] sm:text-xs font-bold text-white bg-red-500 px-2.5 py-0.5 ml-2 rounded-full inline-block">
                                 LIVE
                               </span>
                             )}
                           </p>
-                          <p className="text-sm sm:text-base font-bold flex items-center gap-2 mt-2" style={{ color: 'var(--text-muted)' }}>
+                          <p className="text-xs sm:text-sm font-medium flex items-center gap-2 mt-2" style={{ color: 'var(--text-muted)' }}>
                             <CalendarIcon className="w-4 h-4" /> DEADLINE:{" "}
                             {new Date(assignment.deadline).toLocaleDateString()}
                           </p>
@@ -237,7 +237,7 @@ const StudentDashboard = () => {
                             <Button
                               onClick={() => navigate(`/results/${quiz._id}`)}
                               variant="secondary"
-                              className="w-full xs:w-auto"
+                              className="w-full xs:w-auto rounded-lg"
                             >
                               Review
                             </Button>
@@ -250,7 +250,7 @@ const StudentDashboard = () => {
                               onClick={() => {
                                 navigate(`/quiz/${assignment._id}`);
                               }}
-                              className="w-full xs:w-auto"
+                              className="w-full xs:w-auto rounded-lg"
                             >
                               {assignment.isLive ? "Join Live Quiz" : "Start Quiz"}
                             </Button>
@@ -263,24 +263,24 @@ const StudentDashboard = () => {
                 </StaggeredList>
               </div>
             ) : (
-              <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-center py-4 text-[var(--text-muted)]">
                 No quizzes assigned yet. Check back later!
               </p>
             )}
           </Card>
           <Card>
-            <h3 className="text-2xl font-black uppercase mb-6 text-black border-b-4 border-black pb-2">Assigned Polls</h3>
+            <h3 className="text-lg font-bold uppercase tracking-wider mb-6 text-[var(--text)] border-b border-[var(--border-subtle)] pb-2">Assigned Polls</h3>
             {assignedPolls.length > 0 ? (
               <div className="max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 <div className="space-y-4">
                   {assignedPolls.map((p) => (
-                    <div key={p._id || p.id} className="p-4 sm:p-5 flex flex-col xs:flex-row justify-between items-start xs:items-center gap-4 bg-[var(--nb-pink)] border-4 border-black shadow-[var(--shadow-sm)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-150">
+                    <div key={p._id || p.id} className="p-4 sm:p-5 flex flex-col xs:flex-row justify-between items-start xs:items-center gap-4 bg-[var(--surface-2)] border border-[var(--border-subtle)] border-l-4 border-l-[var(--nb-pink)] rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
                       <div>
-                        <div className="font-black text-xl sm:text-2xl uppercase text-black">{p.title || `Poll`}</div>
-                        <div className="text-sm sm:text-base font-bold text-black opacity-80 mt-1">{(p.questions || []).map((q: any) => q.questionText).slice(0, 2).join(' • ')}{(p.questions || []).length > 2 ? ' ...' : ''}</div>
+                        <div className="font-bold text-base sm:text-lg uppercase text-[var(--text)]">{p.title || `Poll`}</div>
+                        <div className="text-xs sm:text-sm font-medium text-[var(--text-muted)] mt-1">{(p.questions || []).map((q: any) => q.questionText).slice(0, 2).join(' • ')}{(p.questions || []).length > 2 ? ' ...' : ''}</div>
                       </div>
                       <div className="w-full xs:w-auto flex justify-end">
-                        <Button onClick={() => navigate(`/poll/${p._id || p.id}`)} className="w-full xs:w-auto">Open Poll</Button>
+                        <Button onClick={() => navigate(`/poll/${p._id || p.id}`)} className="w-full xs:w-auto rounded-lg">Open Poll</Button>
                       </div>
                     </div>
                   ))}
@@ -288,11 +288,11 @@ const StudentDashboard = () => {
                 </div>
               </div>
             ) : (
-              <p style={{ color: 'var(--text-muted)' }}>No polls assigned.</p>
+              <p className="text-[var(--text-muted)]">No polls assigned.</p>
             )}
           </Card>
           <Card>
-            <h3 className="text-2xl font-black uppercase mb-6 text-black border-b-4 border-black pb-2">Your Activity</h3>
+            <h3 className="text-lg font-bold uppercase tracking-wider mb-6 text-[var(--text)] border-b border-[var(--border-subtle)] pb-2">Your Activity</h3>
             <ContributionHeatmap results={studentResults} />
           </Card>
 
@@ -309,7 +309,7 @@ const StudentDashboard = () => {
         </div>
         <div className="lg:col-span-1 flex flex-col gap-6">
           <Card className="flex-1">
-            <h3 className="text-2xl font-black mb-6 text-center text-black uppercase border-b-4 border-black pb-2">
+            <h3 className="text-lg font-bold mb-6 text-center text-[var(--text)] uppercase border-b border-[var(--border-subtle)] pb-2">
               Your Stats
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4 sm:gap-6">

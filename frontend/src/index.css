@@ -123,13 +123,35 @@ html.dark .recharts-legend-item-text {
    NEO-BRUTALIST NORMALIZATION OVERRIDES
    Overrides hardcoded thick black borders and flat offsets
    ============================================================ */
-.border-4 {
+.border-4:not(.border-l-4) {
   border-width: 1px !important;
-  border-color: var(--border) !important;
 }
-.border-2 {
+.border-2:not(.border-l-2) {
   border-width: 1px !important;
-  border-color: var(--border) !important;
+}
+.border-b-4 {
+  border-bottom-width: 1px !important;
+  border-bottom-color: var(--border) !important;
+}
+.border-b-2 {
+  border-bottom-width: 1px !important;
+  border-bottom-color: var(--border) !important;
+}
+.border-t-4 {
+  border-top-width: 1px !important;
+  border-top-color: var(--border) !important;
+}
+.border-t-2 {
+  border-top-width: 1px !important;
+  border-top-color: var(--border) !important;
+}
+.border-r-4 {
+  border-right-width: 1px !important;
+  border-right-color: var(--border) !important;
+}
+.border-r-2 {
+  border-right-width: 1px !important;
+  border-right-color: var(--border) !important;
 }
 .border-black {
   border-color: var(--border) !important;
