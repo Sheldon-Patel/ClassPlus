@@ -43,7 +43,6 @@ const StudentDashboard = () => {
   const [results, setResults] = React.useState<any[]>(contextResults || []);
   const [quizzes, setQuizzes] = React.useState<any[]>(contextQuizzes || []);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = React.useState(false);
 
   const studentResults = React.useMemo(() => {
@@ -73,7 +72,6 @@ const StudentDashboard = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        setError(null);
 
         const [usersRes, assignmentsRes, quizzesRes, resultsRes] =
           await Promise.all([
@@ -224,10 +222,6 @@ const StudentDashboard = () => {
             {isLoading ? (
               <div className="flex justify-center items-center p-8">
                 <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--accent)', borderTopColor: 'transparent' }}></div>
-              </div>
-            ) : error ? (
-              <div className="p-4 rounded-lg" style={{ color: 'var(--error)', background: 'rgba(239,68,68,0.1)' }}>
-                {error}
               </div>
             ) : studentAssignments.length > 0 ? (
               <div className="max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">

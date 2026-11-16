@@ -133,6 +133,13 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
 const AppRouter = () => {
   const { currentUser } = useAppContext();
 
+  React.useEffect(() => {
+    // If the browser directly accessed a sub-route on load, redirect to home page
+    if (window.location.hash.includes("student") || window.location.hash.includes("teacher") || window.location.hash.includes("admin")) {
+      window.location.hash = "#/";
+    }
+  }, []);
+
   const userDashboardPath = useMemo(() => {
     if (!currentUser) return "/";
     switch (currentUser.role) {
