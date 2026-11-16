@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { useAppContext } from "../context/AppContext";
 import { Button } from "./ui";
 
 const SunIcon = () => (
@@ -29,6 +30,7 @@ const XIcon = () => (
 );
 
 export const Navbar = () => {
+    const { currentUser, logout } = useAppContext();
     const { isDark, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -118,13 +120,31 @@ export const Navbar = () => {
                         >
                             {isDark ? <SunIcon /> : <MoonIcon />}
                         </button>
-                        <Button
-                            onClick={() => navigate("/login")}
-                            variant="secondary"
-                            className="hidden xs:flex px-4 py-2 text-sm rounded-lg"
-                        >
-                            Sign In
-                        </Button>
+                        {currentUser ? (
+                            <div className="hidden xs:flex items-center gap-2">
+                                <Button
+                                    onClick={() => navigate(`/${currentUser.role.toLowerCase()}`)}
+                                    className="px-4 py-2 text-sm rounded-lg"
+                                >
+                                    Dashboard
+                                </Button>
+                                <Button
+                                    onClick={logout}
+                                    variant="secondary"
+                                    className="px-3 py-2 text-sm rounded-lg"
+                                >
+                                    Logout
+                                </Button>
+                            </div>
+                        ) : (
+                            <Button
+                                onClick={() => navigate("/login")}
+                                variant="secondary"
+                                className="hidden xs:flex px-4 py-2 text-sm rounded-lg"
+                            >
+                                Sign In
+                            </Button>
+                        )}
 
                         {/* Mobile menu button */}
                         <button
@@ -153,15 +173,39 @@ export const Navbar = () => {
                         </button>
                     ))}
                     <div className="pt-4 flex flex-col gap-2 xs:hidden">
-                        <Button
-                            onClick={() => {
-                                setIsMenuOpen(false);
-                                navigate("/login");
-                            }}
-                            className="w-full rounded-lg"
-                        >
-                            Sign In
-                        </Button>
+                        {currentUser ? (
+                            <>
+                                <Button
+                                    onClick={() => {
+                                        setIsMenuOpen(false);
+                                        navigate(`/${currentUser.role.toLowerCase()}`);
+                                    }}
+                                    className="w-full rounded-lg"
+                                >
+                                    Dashboard
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        setIsMenuOpen(false);
+                                        logout();
+                                    }}
+                                    variant="secondary"
+                                    className="w-full rounded-lg"
+                                >
+                                    Logout
+                                </Button>
+                            </>
+                        ) : (
+                            <Button
+                                onClick={() => {
+                                    setIsMenuOpen(false);
+                                    navigate("/login");
+                                }}
+                                className="w-full rounded-lg"
+                            >
+                                Sign In
+                            </Button>
+                        )}
                     </div>
                 </div>
             </div>

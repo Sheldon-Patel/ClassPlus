@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { BASE } from "./services/api";
 import { Navbar } from "./components/Navbar";
+import { useAppContext } from "./context/AppContext";
 
 const socket = io(BASE);
 
@@ -141,18 +142,23 @@ const AnimatedFeatureCard: React.FC<AnimatedFeatureCardProps> = ({
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAppContext();
 
   useEffect(() => {
-    // On reload/mount, scroll to top and clear the hash to ensure we land on the homepage
     window.scrollTo({ top: 0, behavior: 'instant' });
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
-    }
   }, []);
 
   useEffect(() => {
     socket.emit("hi", "Hellooooo");
   }, []);
+
+  const handleCtaClick = () => {
+    if (currentUser) {
+      navigate(`/${currentUser.role.toLowerCase()}`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="overflow-hidden theme-transition min-h-screen flex flex-col" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
@@ -180,11 +186,11 @@ const HomePage = () => {
 
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
                 <Button
-                  onClick={() => navigate("/login")}
+                  onClick={handleCtaClick}
                   size="lg"
                   className="px-8 h-14 text-lg shadow-xl shadow-violet-500/25 hover:shadow-violet-600/35"
                 >
-                  Get Started Now
+                  {currentUser ? "Go to Dashboard" : "Get Started Now"}
                   <svg className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

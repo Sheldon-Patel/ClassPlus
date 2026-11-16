@@ -20,21 +20,31 @@ import io from "socket.io-client";
 import { useToast } from "../../components/ui";
 
 const StudentDashboard = () => {
-  const { currentUser } = useAppContext();
+  const {
+    currentUser,
+    users: contextUsers,
+    quizzes: contextQuizzes,
+    results: contextResults,
+    assignments: contextAssignments,
+  } = useAppContext();
   const navigate = useNavigate();
   const { addToast } = useToast();
 
-  const [studentAssignments, setStudentAssignments] = React.useState<any[]>([]);
-  const [assignedPolls, setAssignedPolls] = React.useState<any[]>([]);
-  const [users, setUsers] = React.useState<any[]>([]);
-  const [results, setResults] = React.useState<any[]>([]);
-  const [quizzes, setQuizzes] = React.useState<any[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-  const [isCalendarModalOpen, setIsCalendarModalOpen] = React.useState(false);
-
   // Get the correct user ID (handle both _id and id)
   const currentUserId = currentUser?._id || currentUser?.id;
+
+  const [studentAssignments, setStudentAssignments] = React.useState<any[]>(() => {
+    return (contextAssignments || []).filter((a: any) =>
+      (a.studentIds || []).some((id: any) => String(id) === String(currentUserId))
+    );
+  });
+  const [assignedPolls, setAssignedPolls] = React.useState<any[]>([]);
+  const [users, setUsers] = React.useState<any[]>(contextUsers || []);
+  const [results, setResults] = React.useState<any[]>(contextResults || []);
+  const [quizzes, setQuizzes] = React.useState<any[]>(contextQuizzes || []);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = React.useState(false);
 
   const studentResults = React.useMemo(() => {
     return results.filter((r) => String(r.userId) === String(currentUserId));
@@ -43,23 +53,21 @@ const StudentDashboard = () => {
   const avgScore = React.useMemo(() => {
     return studentResults.length > 0
       ? Math.round(
-        studentResults.reduce((acc, r) => acc + r.score, 0) /
+        studentResults.reduce((acc, r) => acc + (r.score || 0), 0) /
         studentResults.length
       )
       : "N/A";
   }, [studentResults]);
 
   const overallRank = React.useMemo(() => {
-    if (!currentUserId || users.length === 0) return "N/A";
-    return (
+    if (!currentUserId || users.length === 0) return 1;
+    const rank =
       users
         .filter((u) => u.role === "STUDENT")
-        .sort((a, b) => b.points - a.points)
-        .findIndex((u) => (u._id || u.id) === currentUserId) + 1
-    );
+        .sort((a, b) => (b.points || 0) - (a.points || 0))
+        .findIndex((u) => (u._id || u.id) === currentUserId) + 1;
+    return rank > 0 ? rank : 1;
   }, [users, currentUserId]);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,30 +77,48 @@ const StudentDashboard = () => {
 
         const [usersRes, assignmentsRes, quizzesRes, resultsRes] =
           await Promise.all([
-            api.getUsers(),
-            api.getAssignments(),
-            api.getQuizzes(),
-            api.getResults(),
+            api.getUsers().catch(() => null),
+            api.getAssignments().catch(() => null),
+            api.getQuizzes().catch(() => null),
+            api.getResults().catch(() => null),
           ]);
 
-        setUsers(usersRes || []);
-        setQuizzes(quizzesRes || []);
-        setResults(resultsRes || []);
+        if (Array.isArray(usersRes) && usersRes.length > 0) {
+          setUsers(usersRes);
+        } else if (contextUsers && contextUsers.length > 0) {
+          setUsers(contextUsers);
+        }
+
+        if (Array.isArray(quizzesRes) && quizzesRes.length > 0) {
+          setQuizzes(quizzesRes);
+        } else if (contextQuizzes && contextQuizzes.length > 0) {
+          setQuizzes(contextQuizzes);
+        }
+
+        if (Array.isArray(resultsRes) && resultsRes.length > 0) {
+          setResults(resultsRes);
+        } else if (contextResults && contextResults.length > 0) {
+          setResults(contextResults);
+        }
+
         try {
-          const pollsAssigned = await api.getAssignedPolls();
+          const pollsAssigned = await api.getAssignedPolls().catch(() => []);
           setAssignedPolls(pollsAssigned || []);
         } catch (e) {
           // ignore
         }
 
-        const studentAssignmentsData = (assignmentsRes || []).filter((a: any) =>
+        const validAssignments = (Array.isArray(assignmentsRes) && assignmentsRes.length > 0)
+          ? assignmentsRes
+          : (contextAssignments || []);
+
+        const studentAssignmentsData = validAssignments.filter((a: any) =>
           (a.studentIds || []).some((id: any) => String(id) === String(currentUserId))
         );
 
         setStudentAssignments(studentAssignmentsData);
       } catch (err) {
-        console.error("Failed to fetch dashboard data:", err);
-        setError("Failed to load dashboard data. Please try again later.");
+        console.warn("Failed to fetch fresh dashboard data:", err);
       } finally {
         setIsLoading(false);
       }
@@ -101,7 +127,7 @@ const StudentDashboard = () => {
     if (currentUserId) {
       fetchData();
     }
-  }, [currentUserId]);
+  }, [currentUserId, contextUsers, contextQuizzes, contextResults, contextAssignments]);
 
   useEffect(() => {
     if (!currentUserId) return;

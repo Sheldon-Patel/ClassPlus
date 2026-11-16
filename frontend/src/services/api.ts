@@ -1,6 +1,9 @@
 import type { Quiz, QuizResult, Resource, DiscussionPost } from '../types';
 
-export const BASE = import.meta.env.VITE_URL || "http://localhost:8080";
+export const BASE =
+    typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')
+        ? 'https://classplus-backend-dq6i.onrender.com'
+        : (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_URL || 'http://localhost:8080');
 
 async function request(path: string, opts: RequestInit = {}) {
     // attach Authorization header if token is stored in localStorage currentUser
@@ -36,6 +39,9 @@ async function request(path: string, opts: RequestInit = {}) {
         ...opts,
     });
     if (!res.ok) {
+        if (res.status === 401) {
+            localStorage.removeItem('currentUser');
+        }
         const text = await res.text().catch(() => '');
         throw new Error(`API ${path} failed: ${res.status} ${res.statusText} ${text}`);
     }
@@ -54,8 +60,8 @@ export const api = {
             return false;
         }
     },
-    getUsers: () => request('/api/users'),
-    getQuizzes: () => request('/api/quizzes'),
+    getUsers: () => request('/api/users').catch(() => []),
+    getQuizzes: () => request('/api/quizzes').catch(() => []),
     getQuiz: (id: string) => request(`/api/quizzes/${id}`),
     addQuiz: (quiz: Partial<Quiz>) => request('/api/quizzes', { method: 'POST', body: JSON.stringify(quiz) }),
     createQuizWithAssignment: (payload: any) => request('/api/create-quiz', { method: 'POST', body: JSON.stringify(payload) }),
@@ -68,9 +74,9 @@ export const api = {
     createAssignment: (payload: { quizId: string; studentIds: string[]; deadline?: string; timeLimit?: number; numQuestionsToAssign?: number; isLive?: boolean; }) => request('/api/assignments', { method: 'POST', body: JSON.stringify(payload) }),
     getAssignmentByQuiz: (quizId: string) => request(`/api/assignments/by-quiz/${quizId}`),
     updateAssignmentByQuiz: (quizId: string, payload: { studentIds: string[]; deadline?: string; timeLimit?: number; isLive?: boolean; }) => request(`/api/assignments/by-quiz/${quizId}`, { method: 'PUT', body: JSON.stringify(payload) }),
-    getResources: () => request('/api/resources'),
+    getResources: () => request('/api/resources').catch(() => []),
     addResource: (r: Partial<Resource>) => request('/api/resources', { method: 'POST', body: JSON.stringify(r) }),
-    getPosts: () => request('/api/posts'),
+    getPosts: () => request('/api/posts').catch(() => []),
     getPost: (id: string) => request(`/api/posts/${id}`),
     addPost: (p: Partial<DiscussionPost>) => request('/api/discussions', { method: 'POST', body: JSON.stringify(p) }),
     addReply: (postId: string, reply: any) => request(`/api/discussions/reply`, { method: 'POST', body: JSON.stringify({ postId, optimistic: reply }) }),

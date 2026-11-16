@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar, isSidebarOpen }) 
     const { currentUser, logout } = useAppContext();
     const { isDark, toggleTheme } = useTheme();
     const navigate = useNavigate();
-    const homePath = currentUser ? `/${currentUser.role.toLowerCase()}` : '/';
+    const homePath = '/';
 
     return (
         <header

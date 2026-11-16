@@ -36,7 +36,6 @@ import { Header } from "../components/shared/Header";
 import { Spinner } from "../components/ui";
 import { SmartAssistant } from "../components/shared/SmartAssistant";
 
-
 const Layout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -113,6 +112,24 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
+// Protected route component that wraps authenticated content in Layout
+const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: string[] }> = ({
+  children,
+  allowedRoles,
+}) => {
+  const { currentUser } = useAppContext();
+
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(currentUser.role)) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Layout>{children}</Layout>;
+};
+
 const AppRouter = () => {
   const { currentUser } = useAppContext();
 
@@ -141,54 +158,181 @@ const AppRouter = () => {
 
   return (
     <HashRouter>
-      {currentUser ? (
-        <Layout>
-          <Routes>
-            <Route path="/student" element={<StudentDashboard />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/quizzes" element={<AdminQuizzesPage />} />
-            <Route path="/admin/history" element={<AdminHistoryPage />} />
-            <Route path="/teacher" element={<TeacherDashboard />} />
-            <Route path="/quiz/:assignmentId" element={<QuizTaker />} />
-            <Route path="/poll/:pollId" element={<PollTaker />} />
-            <Route path="/admin/polls" element={<PollsAdmin />} />
-            <Route path="/results/:quizId" element={<QuizResults />} />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
-            <Route path="/leaderboard/:quizId" element={<LeaderboardPage />} />
-            {currentUser.role === Roles.STUDENT && (
-              <>
-                <Route path="/resources" element={<ResourcesPage />} />
-                <Route path="/learning" element={<Learning />} />
-              </>
-            )}
-            <Route path="/how-to-use" element={<HomePage />} />
-            <Route path="/about-us" element={<HomePage />} />
-            <Route path="/students" element={<StudentListPage />} />
-            <Route
-              path="/student/:studentId"
-              element={<StudentProfilePage />}
-            />
-            <Route path="/discussions" element={<DiscussionListPage />} />
-            <Route
-              path="/discussions/:postId"
-              element={<DiscussionPostPage />}
-            />
-            {currentUser.role !== Roles.ADMIN && (
-              <>
-                <Route path="/classrooms" element={<ClassroomsPage />} />
-                <Route path="/classrooms/:id" element={<ClassroomDetailPage />} />
-              </>
-            )}
-            <Route path="*" element={<Navigate to={userDashboardPath} />} />
-          </Routes>
-        </Layout>
-      ) : (
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      )}
+      <Routes>
+        {/* Public Landing & Marketing Pages - Users always land on Landing Page at "/" */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/how-to-use" element={<HomePage />} />
+        <Route path="/about-us" element={<HomePage />} />
+
+        {/* Login Page */}
+        <Route
+          path="/login"
+          element={
+            currentUser ? <Navigate to={userDashboardPath} replace /> : <LoginPage />
+          }
+        />
+
+        {/* Authenticated Dashboard Pages wrapped in Layout */}
+        <Route
+          path="/student"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.STUDENT]}>
+              <StudentDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teacher"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.TEACHER]}>
+              <TeacherDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.ADMIN]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/quizzes"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.ADMIN]}>
+              <AdminQuizzesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/history"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.ADMIN]}>
+              <AdminHistoryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/polls"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.ADMIN]}>
+              <PollsAdmin />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Quiz & Poll execution */}
+        <Route
+          path="/quiz/:assignmentId"
+          element={
+            <ProtectedRoute>
+              <QuizTaker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/poll/:pollId"
+          element={
+            <ProtectedRoute>
+              <PollTaker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/results/:quizId"
+          element={
+            <ProtectedRoute>
+              <QuizResults />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Leaderboard & Shared Pages */}
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
+              <LeaderboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/leaderboard/:quizId"
+          element={
+            <ProtectedRoute>
+              <LeaderboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/resources"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.STUDENT]}>
+              <ResourcesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/learning"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.STUDENT]}>
+              <Learning />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.TEACHER, Roles.ADMIN]}>
+              <StudentListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/:studentId"
+          element={
+            <ProtectedRoute>
+              <StudentProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/discussions"
+          element={
+            <ProtectedRoute>
+              <DiscussionListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/discussions/:postId"
+          element={
+            <ProtectedRoute>
+              <DiscussionPostPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/classrooms"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.STUDENT, Roles.TEACHER]}>
+              <ClassroomsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/classrooms/:id"
+          element={
+            <ProtectedRoute allowedRoles={[Roles.STUDENT, Roles.TEACHER]}>
+              <ClassroomDetailPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch-all redirects to the landing page */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </HashRouter>
   );
 };
